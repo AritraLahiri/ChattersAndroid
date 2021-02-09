@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/messageBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_sender_message"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/messsage_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="22dp"
+            android:maxWidth="150dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Hii There."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/time_send_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/messsage_send"
+            android:layout_marginRight="14dp"
+            android:layout_marginBottom="1dp"
+            android:layout_toRightOf="@+id/messsage_send"
+            android:text="12:00pm"
+            android:fontFamily="@font/montserrat"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        <ImageView
+            android:id="@+id/send_affirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/messsage_send"
+            android:layout_below="@+id/time_send_text"
+            android:layout_marginLeft="30dp"
+            />
+
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/love"
+        android:layout_toLeftOf="@+id/messageBox"
+        android:layout_marginRight="-25dp"
+        android:id="@+id/feeling"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

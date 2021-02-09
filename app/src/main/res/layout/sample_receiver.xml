@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_receive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_receiver_message"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/messsage_receive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="35dp"
+            android:maxWidth="150dp"
+            android:minWidth="100dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Hii there"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <TextView
+            android:id="@+id/time_receive_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/messsage_receive"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"
+            android:text="12:00pm"
+            android:fontFamily="@font/montserrat"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="-25dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/feeling"
+        android:layout_toRightOf="@id/layout_receive"
+        android:visibility="gone"
+        android:src="@drawable/love" />
+
+
+</RelativeLayout>

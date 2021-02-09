@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67949195032",
+    "project_id": "fir-practive-4a68d",
+    "storage_bucket": "fir-practive-4a68d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67949195032:android:430d06a9f18f817519b86d",
+        "android_client_info": {
+          "package_name": "aritra.code.chatters"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67949195032-tdm7thj9qi5el87i1jt0blga6dvut1b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6xGwp7f305cbE5F8lsHi4VrMcbIN-Y_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67949195032-tdm7thj9qi5el87i1jt0blga6dvut1b2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
