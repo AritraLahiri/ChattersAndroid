@@ -1,7 +1,7 @@
 package aritra.code.chatters.Models;
 
 public class Users {
-    String profilePic, userMail, userName, userPass, userId, lastMessage, about, phoneNumber;
+    private String profilePic, userMail, userName, userPass, userId, lastMessage, about, phoneNumber, token;
     private UsersStateModel State;
 
 
@@ -19,16 +19,10 @@ public class Users {
 
     }
 
-    public Users(String phoneNumber, String userName) {
+    public Users(String phoneNumber, String userName, String token) {
         this.phoneNumber = phoneNumber;
         this.userName = userName;
-    }
-
-    //    SINGUP CONSTRUCTOR
-    public Users(String userName, String userMail, String userPass) {
-        this.userMail = userMail;
-        this.userName = userName;
-        this.userPass = userPass;
+        this.token = token;
     }
 
     public UsersStateModel getState() {
@@ -93,6 +87,14 @@ public class Users {
 
     public void setAbout(String about) {
         this.about = about;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getLastMessage() {

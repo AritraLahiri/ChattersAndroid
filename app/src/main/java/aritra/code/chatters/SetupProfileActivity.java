@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -30,6 +31,7 @@ public class SetupProfileActivity extends AppCompatActivity {
     FirebaseStorage storage;
     Uri selectedImage;
     ProgressDialog progressDialog;
+    private String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class SetupProfileActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-
+        generateNotificationToken();
 
         binding.addProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +73,7 @@ public class SetupProfileActivity extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {
 
                                         String profilePic = uri.toString();
-                                        Users users = new Users(auth.getCurrentUser().getPhoneNumber(), binding.userName.getText().toString());
+                                        Users users = new Users(auth.getCurrentUser().getPhoneNumber(), binding.userName.getText().toString(),token);
                                         users.setProfilePic(profilePic);
                                         database.getReference().child("Users").child(auth.getUid()).setValue(users).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
@@ -90,7 +92,7 @@ public class SetupProfileActivity extends AppCompatActivity {
 
                 } else {
                     progressDialog.show();
-                    Users users = new Users(auth.getCurrentUser().getPhoneNumber(), binding.userName.getText().toString());
+                    Users users = new Users(auth.getCurrentUser().getPhoneNumber(), binding.userName.getText().toString(), token);
                     database.getReference().child("Users").child(auth.getUid()).setValue(users).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -102,6 +104,18 @@ public class SetupProfileActivity extends AppCompatActivity {
                     });
                 }
 
+            }
+        });
+
+    }
+
+    private void generateNotificationToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    token = task.getResult();
+                }
             }
         });
 

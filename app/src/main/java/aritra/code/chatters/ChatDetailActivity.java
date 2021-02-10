@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +28,14 @@ import java.util.Date;
 import aritra.code.chatters.Adapters.MessageAdapter;
 import aritra.code.chatters.Models.MessagesModel;
 import aritra.code.chatters.Models.Users;
+import aritra.code.chatters.Notifications.Data;
+import aritra.code.chatters.Notifications.NotificationRetrofitInstance;
+import aritra.code.chatters.Notifications.NotificationSender;
+import aritra.code.chatters.Notifications.ResponseDataNotification;
 import aritra.code.chatters.databinding.ActivityChatDetailBinding;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatDetailActivity extends AppCompatActivity {
 
@@ -38,6 +46,10 @@ public class ChatDetailActivity extends AppCompatActivity {
     MainActivity mainActivity;
     String profilePic;
     String userName;
+    Users users;
+    Users senderUser;
+    String token, senderName, senderProfilePic;
+    NewsApi interfaceNotification;
     ArrayList<MessagesModel> messagesModels = new ArrayList<MessagesModel>();
 
 
@@ -74,11 +86,16 @@ public class ChatDetailActivity extends AppCompatActivity {
         String currentDate = dateFormat.format(calendar.getTime());
 
 
+        getSenderDetails();
+
+
         database.getReference().child("Users").child(receiverId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Users users = snapshot.getValue(Users.class);
+                users = snapshot.getValue(Users.class);
+                token = users.getToken();
+
 
                 if (users.getState() != null) {
                     if (users.getState().getState().equals("Offline") && users.getState().getDate().equals(currentDate)) {
@@ -203,7 +220,11 @@ public class ChatDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+
                 String message = chatDetailBinding.message.getText().toString();
+                if (!message.isEmpty()) {
+                    sendNotification(token, senderName, message);
+                }
                 final MessagesModel model = new MessagesModel(senderId, message);
                 model.setMessageTime(new Date().getTime());
                 model.setHasSeen(true);
@@ -221,6 +242,46 @@ public class ChatDetailActivity extends AppCompatActivity {
                         });
                     }
                 });
+            }
+        });
+
+
+    }
+
+    private void getSenderDetails() {
+
+        database.getReference().child("Users").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                senderUser = snapshot.getValue(Users.class);
+                senderName = senderUser.getUserName();
+                senderProfilePic = senderUser.getProfilePic();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void sendNotification(String token, String userName, String message) {
+
+        Data data = new Data(userName, message);
+        NotificationSender sender = new NotificationSender(data, token);
+        interfaceNotification = NotificationRetrofitInstance.getRetrofit().create(NewsApi.class);
+        interfaceNotification.sendNotification(sender).enqueue(new Callback<ResponseDataNotification>() {
+            @Override
+            public void onResponse(Call<ResponseDataNotification> call, Response<ResponseDataNotification> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Send Notifications", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDataNotification> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
