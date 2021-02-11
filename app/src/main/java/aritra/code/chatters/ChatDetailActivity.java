@@ -48,7 +48,7 @@ public class ChatDetailActivity extends AppCompatActivity {
     String userName;
     Users users;
     Users senderUser;
-    String token, senderName, senderProfilePic;
+    String token, senderName;
     NewsApi interfaceNotification;
     ArrayList<MessagesModel> messagesModels = new ArrayList<MessagesModel>();
 
@@ -128,7 +128,6 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
 
-
         chatDetailBinding.userName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,7 +144,6 @@ public class ChatDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         chatDetailBinding.option.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +253,6 @@ public class ChatDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 senderUser = snapshot.getValue(Users.class);
                 senderName = senderUser.getUserName();
-                senderProfilePic = senderUser.getProfilePic();
             }
 
             @Override
@@ -269,13 +266,16 @@ public class ChatDetailActivity extends AppCompatActivity {
     private void sendNotification(String token, String userName, String message) {
 
         Data data = new Data(userName, message);
+        data.setColor("#FF039BE5");
+        data.setIcon("notify_icon");
+
         NotificationSender sender = new NotificationSender(data, token);
         interfaceNotification = NotificationRetrofitInstance.getRetrofit().create(NewsApi.class);
         interfaceNotification.sendNotification(sender).enqueue(new Callback<ResponseDataNotification>() {
             @Override
             public void onResponse(Call<ResponseDataNotification> call, Response<ResponseDataNotification> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Send Notifications", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Send Notifications", Toast.LENGTH_SHORT).show();
                 }
             }
 

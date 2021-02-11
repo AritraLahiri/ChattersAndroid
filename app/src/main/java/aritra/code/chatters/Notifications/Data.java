@@ -1,30 +1,51 @@
 package aritra.code.chatters.Notifications;
 
 public class Data {
-    private String Title;
-    private String Message;
+    private String title;
+    private String body;
+    private String icon;
+    private  String color;
 
-    public Data(String Title, String Message) {
-        this.Title = Title;
-        this.Message = Message;
+
+
+    public Data(String title, String body) {
+        this.title = title;
+        this.body = body;
     }
 
     public Data() {
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     public String getTitle() {
-        return Title;
+        return title;
     }
 
-    public void setTitle(String Title) {
-        this.Title = Title;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String getBody() {
+        return body;
     }
 
-    public String getMessage() {
-        return Message;
-    }
-
-    public void setMessage(String Message) {
-        this.Message = Message;
+    public void setBody(String body) {
+        this.body = body;
     }
 }
+
+

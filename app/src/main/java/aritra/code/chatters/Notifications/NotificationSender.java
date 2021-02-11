@@ -2,12 +2,12 @@ package aritra.code.chatters.Notifications;
 
 public class NotificationSender {
 
-    private Data data;
+    private Data notification;
     private String to;
 
 
-    public NotificationSender(Data data, String to) {
-        this.data = data;
+    public NotificationSender(Data notification, String to) {
+        this.notification = notification;
         this.to = to;
     }
 
@@ -15,11 +15,11 @@ public class NotificationSender {
     }
 
     public Data getData() {
-        return data;
+        return notification;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setData(Data notification) {
+        this.notification = notification;
     }
 
     public String getTo() {
