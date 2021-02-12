@@ -3,6 +3,7 @@ package aritra.code.chatters;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 break;
+
+            case R.id.privacy:
+                openPrivacyPolicy("https://ggamingparadise.blogspot.com/2021/02/privacy-policy-aritra-lahiri-built_12.html");
+                break;
+
             case R.id.logout:
                 updateUserState("Offline");
                 auth.signOut();
@@ -124,5 +130,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    private void openPrivacyPolicy(String s) {
+        Uri uri = Uri.parse(s);
+        Intent launchPage = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(launchPage);
     }
 }

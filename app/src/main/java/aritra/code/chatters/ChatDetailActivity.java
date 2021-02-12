@@ -2,6 +2,7 @@ package aritra.code.chatters;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -159,6 +160,10 @@ public class ChatDetailActivity extends AppCompatActivity {
                                 startActivity(new Intent(ChatDetailActivity.this, SettingsActivity.class));
                                 break;
 
+                            case R.id.privacy:
+                                openPrivacyPolicy("https://ggamingparadise.blogspot.com/2021/02/privacy-policy-aritra-lahiri-built_12.html");
+                                break;
+
                             case R.id.logout:
                                 auth.signOut();
                                 startActivity(new Intent(ChatDetailActivity.this, PhoneAuthActivity.class));
@@ -244,6 +249,12 @@ public class ChatDetailActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void openPrivacyPolicy(String s) {
+        Uri uri = Uri.parse(s);
+        Intent launchPage = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(launchPage);
     }
 
     private void getSenderDetails() {
