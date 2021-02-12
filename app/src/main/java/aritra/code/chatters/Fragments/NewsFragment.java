@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import aritra.code.chatters.Adapters.NewsAdapter;
+import aritra.code.chatters.BuildConfig;
 import aritra.code.chatters.Models.NewsArray;
 import aritra.code.chatters.Models.NewsPOJO;
 import aritra.code.chatters.NewsApi;
@@ -27,16 +28,11 @@ import retrofit2.Response;
 
 public class NewsFragment extends Fragment {
 
-
-//    FIRST API KEY = 5178952f01fe4def977af75dfca21c13
-//    SECOND API KEY = 099873e09b234f98abcdc844c0f63e8b
-//    THIRD API KEY = c4304311ecda48a8915d5c2db5ef913a
-
     FragmentNewsBinding binding;
     int currentItems, scrolledOutItems, totalResults, totalItems, pageCount;
     private ArrayList<NewsPOJO> list = new ArrayList<>();
     private String NEWS_BASE_URL = "https://newsapi.org/";
-    private String newsApiKey = "c4304311ecda48a8915d5c2db5ef913a";
+    private String newsApiKey = BuildConfig.NewsApiKey;
     private String pageHeader = "&page=";
     private String pageSize = "&pageSize=100";
     private String newsHeader = "v2/top-headlines?country=in&apiKey=";
