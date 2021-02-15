@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +55,8 @@ public class ChatDetailActivity extends AppCompatActivity {
     Users senderUser;
     String token, senderName;
     NewsApi interfaceNotification;
+    ReviewManager manager;
+    ReviewInfo reviewInfo;
     ArrayList<MessagesModel> messagesModels = new ArrayList<MessagesModel>();
 
 
@@ -73,6 +79,7 @@ public class ChatDetailActivity extends AppCompatActivity {
         chatDetailBinding = ActivityChatDetailBinding.inflate(getLayoutInflater());
         setContentView(chatDetailBinding.getRoot());
         getSupportActionBar().hide();
+        initReviewInfo();
         mainActivity = new MainActivity();
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -123,9 +130,8 @@ public class ChatDetailActivity extends AppCompatActivity {
         chatDetailBinding.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatDetailActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                openReview();
+
             }
         });
 
@@ -250,6 +256,37 @@ public class ChatDetailActivity extends AppCompatActivity {
 
 
     }
+
+    private void initReviewInfo() {
+        manager = ReviewManagerFactory.create(this);
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // We can get the ReviewInfo object
+                reviewInfo = task.getResult();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        openReview();
+        super.onBackPressed();
+    }
+
+    private void openReview() {
+        if (reviewInfo != null) {
+            Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
+            flow.addOnCompleteListener(task -> {
+                startActivity(new Intent(ChatDetailActivity.this, MainActivity.class));
+            });
+        }
+        startActivity(new Intent(ChatDetailActivity.this, MainActivity.class));
+
+    }
+
+
+
 
     private void openPrivacyPolicy(String s) {
         Uri uri = Uri.parse(s);

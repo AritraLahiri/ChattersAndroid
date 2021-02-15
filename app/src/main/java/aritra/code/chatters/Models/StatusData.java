@@ -4,7 +4,6 @@ public class StatusData {
 
     private String imageUrl , imageDescription;
     private long timeStamp;
-    private  String profileImage, userName;
 
     public StatusData(String imageUrl, long timeStamp ) {
         this.imageUrl = imageUrl;
@@ -16,10 +15,6 @@ public class StatusData {
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public long getTimeStamp() {

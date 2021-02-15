@@ -32,7 +32,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     ArrayList<Users> list;
     Context context;
-    int totalSentChats, totalReceivedChats;
+
 
     public UserAdapter(ArrayList<Users> list, Context context) {
         this.list = list;

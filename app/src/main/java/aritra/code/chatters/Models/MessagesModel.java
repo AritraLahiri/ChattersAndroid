@@ -41,16 +41,9 @@ public class MessagesModel {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public Long getMessageTime() {
@@ -59,10 +52,6 @@ public class MessagesModel {
 
     public void setMessageTime(Long messageTime) {
         this.messageTime = messageTime;
-    }
-
-    public Boolean getHasSeen() {
-        return hasSeen;
     }
 
     public void setHasSeen(Boolean hasSeen) {

@@ -46,14 +46,6 @@ public class Status {
         this.statuses = statuses;
     }
 
-    public Long getlastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setlastUpdated(Long lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     public String getProfileImage() {
         return profileImage;
     }
@@ -84,10 +76,6 @@ public class Status {
 
     public void setHasSeen(Boolean hasSeen) {
         this.hasSeen = hasSeen;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public void setUserId(String userId) {

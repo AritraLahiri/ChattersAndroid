@@ -52,10 +52,8 @@ ChatFragment extends Fragment {
     ArrayList<Users> list = new ArrayList<Users>();
     ArrayList<Status> listAdapter = new ArrayList<>();
     Users users;
-    Users usersDefault;
     Users statusUsers;
     Status status;
-    Users unknownUser;
     UserAdapter userAdapter;
     StatusAdapter statusAdapter;
 
@@ -219,7 +217,7 @@ ChatFragment extends Fragment {
 
                             for (DataSnapshot statusSnapshot : snapshot1.child("Stories").getChildren()) {
 
-                                if (statusSnapshot.exists()) {
+                                if (statusSnapshot.exists() ) {
                                     status.setStatusId(statusSnapshot.getKey());
                                     if (!dateFormat.format(new Date()).equals(dateFormat.format(statusSnapshot.child("timeStamp").getValue(Long.class)))) {
                                         Log.i("Date is ", dateFormat.format(status.getLastUpdated()));

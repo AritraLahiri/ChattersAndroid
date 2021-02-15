@@ -13,6 +13,10 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseDatabase database;
     FirebaseStorage storage;
     RelativeLayout relativeLayout;
+    ReviewManager manager;
+    ReviewInfo reviewInfo;
 
 
     @Override
@@ -44,6 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
+        initReviewInfo();
         auth = FirebaseAuth.getInstance();
         relativeLayout = findViewById(R.id.relative_layout);
         storage = FirebaseStorage.getInstance();
@@ -55,8 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding.backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(SettingsActivity.this, MainActivity.class);
-                startActivity(intent);
+                openReview();
             }
         });
 
@@ -107,6 +113,38 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initReviewInfo() {
+        manager = ReviewManagerFactory.create(this);
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // We can get the ReviewInfo object
+                reviewInfo = task.getResult();
+            } else {
+                // There was some problem, continue regardless of the result.
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        openReview();
+        super.onBackPressed();
+    }
+
+    private void openReview() {
+        if (reviewInfo != null) {
+            Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
+            flow.addOnCompleteListener(task -> {
+                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+            });
+        }
+        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

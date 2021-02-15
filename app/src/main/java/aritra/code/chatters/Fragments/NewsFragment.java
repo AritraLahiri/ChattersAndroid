@@ -13,6 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.Task;
+
 import java.util.ArrayList;
 
 import aritra.code.chatters.Adapters.NewsAdapter;
@@ -30,6 +35,8 @@ public class NewsFragment extends Fragment {
 
     FragmentNewsBinding binding;
     int currentItems, scrolledOutItems, totalResults, totalItems, pageCount;
+    ReviewManager manager;
+    ReviewInfo reviewInfo;
     private ArrayList<NewsPOJO> list = new ArrayList<>();
     private String NEWS_BASE_URL = "https://newsapi.org/";
     private String newsApiKey = BuildConfig.NewsApiKey;
@@ -54,6 +61,7 @@ public class NewsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentNewsBinding.inflate(inflater, container, false);
         linearLayoutManager = new LinearLayoutManager(getContext());
+        initReviewInfo();
         pageCount = 1;
         list = new ArrayList<>();
         adapter = new NewsAdapter(getContext(), list);
@@ -64,6 +72,9 @@ public class NewsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
+                if (reviewInfo != null) {
+                    openReview();
+                }
                 if (b) {
                     categoryHeader = "&category=" + compoundButton.getText().toString().toLowerCase();
                 } else {
@@ -120,6 +131,26 @@ public class NewsFragment extends Fragment {
 
         return binding.getRoot();
     }
+
+
+    private void initReviewInfo() {
+        manager = ReviewManagerFactory.create(getContext());
+        Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // We can get the ReviewInfo object
+                reviewInfo = task.getResult();
+            }
+        });
+    }
+
+    private void openReview() {
+        Task<Void> flow = manager.launchReviewFlow(getActivity(), reviewInfo);
+        flow.addOnCompleteListener(task -> {
+            return;
+        });
+    }
+
 
     private void getNews(int pageCount) {
         newsApi = RetrofitInstance.getRetrofit().create(NewsApi.class);
