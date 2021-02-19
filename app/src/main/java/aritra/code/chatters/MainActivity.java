@@ -1,19 +1,28 @@
 package aritra.code.chatters;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,11 +35,14 @@ import aritra.code.chatters.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int my_requestCode = 999;
     ActivityMainBinding binding;
     FirebaseAuth auth;
     TabLayout tabLayout;
     ViewPager viewPager;
     FirebaseDatabase database;
+    private AppUpdateManager appUpdateManager;
+    private Task<AppUpdateInfo> appUpdateInfoTask;
 
 
     @Override
@@ -51,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAndUpdateApp();
+    }
 
     @Override
     protected void onStop() {
@@ -69,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().setElevation(0);
+        getInAppUpdates();
         auth = FirebaseAuth.getInstance();
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager()));
@@ -101,11 +119,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void getInAppUpdates() {
+        // Creates instance of the manager.
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        // Returns an intent object that you use to check for an update.
+        appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+        // Checks that the platform will allow the specified type of update.
+        checkAndUpdateApp();
+
+    }
+
+    private void checkAndUpdateApp() {
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    // For a flexible update, use AppUpdateType.FLEXIBLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                // Request the update.
+
+                try {
+                    appUpdateManager
+                            .startUpdateFlowForResult(
+                                    appUpdateInfo,
+                                    AppUpdateType.IMMEDIATE,
+                                    MainActivity.this,
+                                    my_requestCode
+                            );
+                } catch (IntentSender.SendIntentException e) {
+                    Log.e("Error in App Update", e.getLocalizedMessage());
+
+                }
+            }
+        });
+
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == my_requestCode) {
+            if (resultCode != RESULT_OK) {
+                finish();
+            }
+        }
     }
 
     @Override

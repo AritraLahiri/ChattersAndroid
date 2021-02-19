@@ -88,10 +88,11 @@ ChatFragment extends Fragment {
         //        GATHERING ALL CONTACTS FROM USER
         for (Contacts contact : contactList) {
             String contactNumbers = "";
-            if (contact.getContactName().startsWith("+91")) {
-                contactNumbers = contact.getContactNumber().replaceAll("\\s", "");
-            } else {
-                contactNumbers = "+91" + contact.getContactNumber().replaceAll("\\s", "");
+
+            contactNumbers = contact.getContactNumber().replaceAll("\\s", "");
+
+            if (!contactNumbers.startsWith("+91")) {
+                contactNumbers = "+91" + contactNumbers;
             }
             contactNumbersList.add(contactNumbers);
         }
@@ -217,7 +218,7 @@ ChatFragment extends Fragment {
 
                             for (DataSnapshot statusSnapshot : snapshot1.child("Stories").getChildren()) {
 
-                                if (statusSnapshot.exists() ) {
+                                if (statusSnapshot.exists()) {
                                     status.setStatusId(statusSnapshot.getKey());
                                     if (!dateFormat.format(new Date()).equals(dateFormat.format(statusSnapshot.child("timeStamp").getValue(Long.class)))) {
                                         Log.i("Date is ", dateFormat.format(status.getLastUpdated()));
