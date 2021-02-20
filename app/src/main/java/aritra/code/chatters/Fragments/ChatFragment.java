@@ -165,6 +165,7 @@ ChatFragment extends Fragment {
                 //  If New User DOES NOT HAVE ANY FRIENDS  THEN SHOW DEFAULT THREE CONTACTS
                 if (list.size() < 1) {
                     chatBinding.noChatCard.setVisibility(View.VISIBLE);
+                    chatBinding.uploadStatusBtn.setVisibility(View.INVISIBLE);
                 }
             }
 

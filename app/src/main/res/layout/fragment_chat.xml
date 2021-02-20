@@ -71,6 +71,7 @@
         android:layout_margin="16dp"
         android:background="@color/colorPrimary"
         android:gravity="bottom"
+        android:visibility="visible"
         android:src="@drawable/ic_baseline_camera_alt_24"
         app:fabSize="normal"
         app:tint="#fff" />
