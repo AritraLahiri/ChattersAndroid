@@ -52,14 +52,26 @@
                 android:layout_below="@+id/girl_image"
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
-                android:lineHeight="30dp"
                 android:fontFamily="@font/montserrat"
+                android:lineHeight="30dp"
                 android:text="No Chats yet. Ask a friend to join and have fun"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/chatbackground" />
 
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/share_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/upload_status_btn"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/share_icon"
+        app:backgroundTint="#050505"
+        app:tint="#fff" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -71,8 +83,8 @@
         android:layout_margin="16dp"
         android:background="@color/colorPrimary"
         android:gravity="bottom"
-        android:visibility="visible"
         android:src="@drawable/ic_baseline_camera_alt_24"
+        android:visibility="visible"
         app:fabSize="normal"
         app:tint="#fff" />
 

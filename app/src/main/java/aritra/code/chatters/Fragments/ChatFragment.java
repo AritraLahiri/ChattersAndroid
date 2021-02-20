@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -107,6 +108,16 @@ ChatFragment extends Fragment {
                 startActivityForResult(intent, 98);
             }
         });
+
+
+//        SHARE BUTTON CLICK
+        chatBinding.shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareApp();
+            }
+        });
+
         database.getReference().child("Users").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -120,6 +131,19 @@ ChatFragment extends Fragment {
 
 
         return chatBinding.getRoot();
+    }
+
+    private void shareApp() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        String textBody = "Join me in Chatters app and Lets chat and have fun together." +
+                "\n Click here  https://play.google.com/store/apps/details?id=aritra.code.chatters to download now";
+        String textSubject = "Hey Join me in Chatters App";
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, textBody);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, textSubject);
+        startActivity(Intent.createChooser(shareIntent, "Share with"));
+
+
     }
 
     //    LOADING ALL CONTACTS FROM USER
@@ -166,6 +190,12 @@ ChatFragment extends Fragment {
                 if (list.size() < 1) {
                     chatBinding.noChatCard.setVisibility(View.VISIBLE);
                     chatBinding.uploadStatusBtn.setVisibility(View.INVISIBLE);
+                    RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) chatBinding.shareBtn.getLayoutParams();
+                    // position on right bottom
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, 0);
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                    rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 }
             }
 
