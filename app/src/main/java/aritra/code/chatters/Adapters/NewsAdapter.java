@@ -2,6 +2,7 @@ package aritra.code.chatters.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +62,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         binding.newsDesc.setText(data.getDescription());
         binding.provider.setText(data.getSource().getName());
 
+        binding.provider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                URL providerUrl = null;
+                try {
+                    providerUrl = new URL(data.getUrl());
+                    Intent viewIntent =
+                            new Intent("android.intent.action.VIEW",
+                                    Uri.parse("https://" + providerUrl.getHost()));
+                    context.startActivity(viewIntent);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",
@@ -77,14 +98,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
 
-
-
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, FullNewsActivity.class);
                 intent.putExtra("url", data.getUrl());
+                intent.putExtra("name",data.getSource().getName());
                 context.startActivity(intent);
 
 

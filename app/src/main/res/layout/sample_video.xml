@@ -37,45 +37,55 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/video_title"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
                 android:fontFamily="@font/montserrat"
                 android:text="hahaheeh" />
 
             <TextView
+                android:id="@+id/channel_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/video_title"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/video_title"
                 android:fontFamily="@font/montserrat"
                 android:text="Sample channel name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:id="@+id/channel_name"
-                />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
             <TextView
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
                 android:layout_below="@+id/video_title"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Sample Time"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:id="@+id/date"
-                />
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
+            <TextView
+                android:id="@+id/youtube_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/channel_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:drawableRight="@drawable/youtube_icon"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:text="Visit Youtube"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 
         </RelativeLayout>

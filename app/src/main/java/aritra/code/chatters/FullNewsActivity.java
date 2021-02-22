@@ -1,6 +1,7 @@
 package aritra.code.chatters;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -8,16 +9,15 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.play.core.review.ReviewInfo;
-import com.google.android.play.core.review.ReviewManager;
-import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.tasks.Task;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import aritra.code.chatters.databinding.ActivityFullNewsBinding;
 
 public class FullNewsActivity extends AppCompatActivity {
 
     ActivityFullNewsBinding binding;
+    String webUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,26 @@ public class FullNewsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
         Intent intent = getIntent();
-        String webUrl = intent.getStringExtra("url");
+        webUrl = intent.getStringExtra("url");
+        String providerName = intent.getStringExtra("name");
+        binding.providerLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                openNewsWebsite();
+
+
+            }
+        });
+
+
+        binding.providerDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openNewsWebsite();
+            }
+        });
+
 
         if (webUrl != null) {
             binding.webView.getSettings().setJavaScriptEnabled(true);
@@ -37,15 +56,27 @@ public class FullNewsActivity extends AppCompatActivity {
                     super.onPageFinished(view, url);
                     binding.progressBar.setVisibility(View.GONE);
                     binding.webView.setVisibility(View.VISIBLE);
+                    binding.providerLink.setText(providerName);
+                    binding.providerDesc.setText("For more news like these");
+
                 }
             });
             binding.webView.loadUrl(webUrl);
         }
     }
 
+    private void openNewsWebsite() {
+        Intent viewIntent =
+                null;
+        try {
+            viewIntent = new Intent("android.intent.action.VIEW",
+                    Uri.parse("https://" + new URL(webUrl).getHost()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        startActivity(viewIntent);
 
-
-
+    }
 
 
 }
