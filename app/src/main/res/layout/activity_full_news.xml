@@ -5,35 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".FullNewsActivity">
 
-    <TextView
-        android:id="@+id/provider_link"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/montserrat"
-        android:gravity="left"
-        android:text=""
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/provider_link"
-        android:layout_marginLeft="16dp"
-        android:text=""
-        android:paddingBottom="18dp"
-    android:id="@+id/provider_desc"
-        />
-
 
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/provider_desc"
         android:layout_marginBottom="18dp"
         android:visibility="invisible" />
 

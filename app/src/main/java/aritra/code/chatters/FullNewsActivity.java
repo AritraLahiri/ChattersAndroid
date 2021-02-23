@@ -28,23 +28,8 @@ public class FullNewsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         webUrl = intent.getStringExtra("url");
         String providerName = intent.getStringExtra("name");
-        binding.providerLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                openNewsWebsite();
 
 
-            }
-        });
-
-
-        binding.providerDesc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openNewsWebsite();
-            }
-        });
 
 
         if (webUrl != null) {
@@ -56,27 +41,13 @@ public class FullNewsActivity extends AppCompatActivity {
                     super.onPageFinished(view, url);
                     binding.progressBar.setVisibility(View.GONE);
                     binding.webView.setVisibility(View.VISIBLE);
-                    binding.providerLink.setText(providerName);
-                    binding.providerDesc.setText("For more news like these");
-
                 }
             });
             binding.webView.loadUrl(webUrl);
         }
     }
 
-    private void openNewsWebsite() {
-        Intent viewIntent =
-                null;
-        try {
-            viewIntent = new Intent("android.intent.action.VIEW",
-                    Uri.parse("https://" + new URL(webUrl).getHost()));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        startActivity(viewIntent);
 
-    }
 
 
 }

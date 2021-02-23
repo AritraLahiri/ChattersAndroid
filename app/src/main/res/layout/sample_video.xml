@@ -74,18 +74,7 @@
                 android:text="Sample Time"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-            <TextView
-                android:id="@+id/youtube_link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/channel_name"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:drawableRight="@drawable/youtube_icon"
-                android:drawablePadding="12dp"
-                android:gravity="center"
-                android:text="Visit Youtube"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
 
 
         </RelativeLayout>
