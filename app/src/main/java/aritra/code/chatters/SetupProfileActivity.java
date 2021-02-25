@@ -63,8 +63,11 @@ public class SetupProfileActivity extends AppCompatActivity {
                     binding.userName.setError("Enter Your Name");
                 } else if (selectedImage != null) {
                     progressDialog.show();
+
+                    byte[] userProfilePic = ImageSizeCompress.compressImage(selectedImage, getApplicationContext());
+
                     StorageReference storageReference = storage.getReference().child("Profile Pictures").child(auth.getUid());
-                    storageReference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    storageReference.putBytes(userProfilePic).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             if (task.isSuccessful()) {
@@ -73,7 +76,7 @@ public class SetupProfileActivity extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {
 
                                         String profilePic = uri.toString();
-                                        Users users = new Users(auth.getCurrentUser().getPhoneNumber(), binding.userName.getText().toString(),token);
+                                        Users users = new Users(auth.getCurrentUser().getPhoneNumber(), binding.userName.getText().toString(), token);
                                         users.setProfilePic(profilePic);
                                         database.getReference().child("Users").child(auth.getUid()).setValue(users).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override

@@ -8,14 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 import aritra.code.chatters.MainActivity;
 import aritra.code.chatters.Models.Status;
@@ -56,7 +53,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusView
             Picasso.get().load(lastStatusImage.getImageUrl()).fit().centerCrop().placeholder(R.drawable.ic_profile).into(holder.binding.statusImage);
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-            holder.binding.circularStatusView.setPortionsColor(status.getHasSeen() ? R.color.white : R.color.whatsAppColor);
+
 
 
             holder.binding.imageLayout.setOnClickListener(new View.OnClickListener() {
@@ -93,16 +90,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusView
                             .build() // Must be called before calling show method
                             .show();
 
-                    HashMap<String, Object> hashObj = new HashMap<>();
-                    hashObj.put("hasSeen", true);
-                    hashObj.put("lastUpdated", status.getLastUpdated());
-                    hashObj.put("name", status.getUserName());
-                    hashObj.put("phoneNumber", status.getPhoneNumber());
-                    hashObj.put("profileImage", status.getProfileImage());
-                    FirebaseDatabase.getInstance().getReference().child("Status").child(FirebaseAuth.getInstance().getUid()).updateChildren(hashObj);
-
                     notifyDataSetChanged();
-
 
                 }
 
@@ -115,7 +103,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusView
     @Override
     public int getItemCount() {
 
-            return list.size();
+        return list.size();
     }
 
     public class StatusViewHolder extends RecyclerView.ViewHolder {

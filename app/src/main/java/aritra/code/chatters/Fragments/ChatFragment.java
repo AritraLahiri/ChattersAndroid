@@ -2,9 +2,11 @@ package aritra.code.chatters.Fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +39,7 @@ import java.util.HashMap;
 
 import aritra.code.chatters.Adapters.StatusAdapter;
 import aritra.code.chatters.Adapters.UserAdapter;
+import aritra.code.chatters.ImageSizeCompress;
 import aritra.code.chatters.Models.Contacts;
 import aritra.code.chatters.Models.Status;
 import aritra.code.chatters.Models.StatusData;
@@ -62,6 +67,7 @@ ChatFragment extends Fragment {
     public ChatFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -183,8 +189,10 @@ ChatFragment extends Fragment {
                         }
                     }
 
+
                     chatBinding.progressBar.setVisibility(View.GONE);
                     userAdapter.notifyDataSetChanged();
+
                 }
                 //  If New User DOES NOT HAVE ANY FRIENDS  THEN SHOW DEFAULT THREE CONTACTS
                 if (list.size() < 1) {
@@ -242,7 +250,6 @@ ChatFragment extends Fragment {
                             status.setUserName(snapshot1.child("name").getValue(String.class));
                             status.setProfileImage(snapshot1.child("profileImage").getValue(String.class));
                             status.setLastUpdated(snapshot1.child("lastUpdated").getValue(Long.class));
-                            status.setHasSeen(snapshot1.child("hasSeen").getValue(Boolean.class));
                             status.setPhoneNumber(snapshot1.child("phoneNumber").getValue(String.class));
 
                             ArrayList<StatusData> statusData = new ArrayList<>();
@@ -303,47 +310,48 @@ ChatFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (data != null) {
-//            progressDialog.show();
             Uri imageUrl = data.getData();
-            Long timeUploaded = new Date().getTime();
-            final StorageReference storageReference = storage.getReference().child("Status").child(auth.getUid()).child(timeUploaded.toString());
-            storageReference.putFile(imageUrl).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
+             byte[] final_image =  ImageSizeCompress.compressImage(imageUrl,getContext());
 
-                            status = new Status();
-                            status.setUserName(statusUsers.getUserName());
-                            status.setProfileImage(statusUsers.getProfilePic());
-                            status.setLastUpdated(timeUploaded);
-                            status.setPhoneNumber(statusUsers.getPhoneNumber());
 
-                            HashMap<String, Object> hashObj = new HashMap<>();
-                            hashObj.put("name", status.getUserName());
-                            hashObj.put("profileImage", status.getProfileImage());
-                            hashObj.put("lastUpdated", status.getLastUpdated());
-                            hashObj.put("phoneNumber", status.getPhoneNumber());
-                            hashObj.put("hasSeen", false);
+             Long timeUploaded = new Date().getTime();
+                final StorageReference storageReference = storage.getReference().child("Status").child(auth.getUid()).child(timeUploaded.toString());
 
-                            Intent intent = new Intent(getContext(), StatusUploadActivity.class);
-                            intent.putExtra("Image", imageUrl.toString());
-                            intent.putExtra("Uri", uri.toString());
-                            intent.putExtra("Time", status.getLastUpdated().toString());
-                            startActivity(intent);
-                            database.getReference().child("Status").child(auth.getUid()).updateChildren(hashObj);
-                        }
-                    });
-                }
-            });
+                storageReference.putBytes(final_image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                status = new Status();
+                                status.setUserName(statusUsers.getUserName());
+                                status.setProfileImage(statusUsers.getProfilePic());
+                                status.setLastUpdated(timeUploaded);
+                                status.setPhoneNumber(statusUsers.getPhoneNumber());
+
+                                HashMap<String, Object> hashObj = new HashMap<>();
+                                hashObj.put("name", status.getUserName());
+                                hashObj.put("profileImage", status.getProfileImage());
+                                hashObj.put("lastUpdated", status.getLastUpdated());
+                                hashObj.put("phoneNumber", status.getPhoneNumber());
+                                Intent intent = new Intent(getContext(), StatusUploadActivity.class);
+                                intent.putExtra("Image", imageUrl.toString());
+                                intent.putExtra("Uri", uri.toString());
+                                intent.putExtra("Time", status.getLastUpdated().toString());
+                                startActivity(intent);
+                                database.getReference().child("Status").child(auth.getUid()).updateChildren(hashObj);
+                            }
+                        });
+                    }
+                });
+
 
 
         }
     }
-
 
 }

@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 public class Status {
 
-    String profileImage, statusId, userName, phoneNumber , userId;
+    String profileImage, statusId, userName, phoneNumber, userId;
     Long lastUpdated;
     ArrayList<StatusData> statuses;
-    Boolean hasSeen = false;
 
 
     public Status(String profileImage, String userName, Long lastUpdated, ArrayList<StatusData> statuses, String phoneNumber) {
@@ -71,19 +70,11 @@ public class Status {
         this.statusId = statusId;
     }
 
-    public Boolean getHasSeen() {
-        return hasSeen;
-    }
-
-    public void setHasSeen(Boolean hasSeen) {
-        this.hasSeen = hasSeen;
+    public String getUserId() {
+        return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 }

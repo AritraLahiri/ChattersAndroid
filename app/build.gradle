@@ -16,8 +16,8 @@ android {
         applicationId "aritra.code.chatters"
         minSdkVersion 17
         targetSdkVersion 30
-        versionCode 6
-        versionName "1.401"
+        versionCode 7
+        versionName "1.402"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
