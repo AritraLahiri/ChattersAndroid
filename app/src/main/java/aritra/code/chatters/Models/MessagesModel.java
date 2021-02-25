@@ -2,9 +2,9 @@ package aritra.code.chatters.Models;
 
 public class MessagesModel {
 
-    String userId, message , messageId;
+    String userId, message, messageId;
     Long messageTime;
-    Boolean hasSeen ;
+    Boolean hasSeen;
     int feeling = -1;
 
     public MessagesModel(String userId, String message, Long messageTime) {
@@ -52,6 +52,10 @@ public class MessagesModel {
 
     public void setMessageTime(Long messageTime) {
         this.messageTime = messageTime;
+    }
+
+    public Boolean getHasSeen() {
+        return hasSeen;
     }
 
     public void setHasSeen(Boolean hasSeen) {

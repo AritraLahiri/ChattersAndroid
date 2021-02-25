@@ -26,6 +26,7 @@ public class Status {
         return userName;
     }
 
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -80,5 +81,9 @@ public class Status {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

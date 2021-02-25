@@ -12,7 +12,15 @@ public class NewsArray  {
         return articles;
     }
 
+    public void setArticles(ArrayList<NewsPOJO> articles) {
+        this.articles = articles;
+    }
+
     public int getTotalResults() {
         return totalResults;
+    }
+
+    public void setTotalResults(int totalResults) {
+        this.totalResults = totalResults;
     }
 }

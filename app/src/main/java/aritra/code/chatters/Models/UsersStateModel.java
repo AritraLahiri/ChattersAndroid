@@ -20,4 +20,15 @@ public class UsersStateModel {
         return time;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

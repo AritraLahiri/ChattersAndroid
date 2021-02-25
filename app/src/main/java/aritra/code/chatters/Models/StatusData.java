@@ -17,9 +17,14 @@ public class StatusData {
         return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public long getTimeStamp() {
         return timeStamp;
     }
+
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
@@ -28,6 +33,7 @@ public class StatusData {
     public String getImageDescription() {
         return imageDescription;
     }
+
 
     public void setImageDescription(String imageDescription) {
         this.imageDescription = imageDescription;

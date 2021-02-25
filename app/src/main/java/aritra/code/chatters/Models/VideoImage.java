@@ -6,4 +6,8 @@ public class VideoImage {
     public VideoImageSize getHigh() {
         return high;
     }
+
+    public void setHigh(VideoImageSize high) {
+        this.high = high;
+    }
 }

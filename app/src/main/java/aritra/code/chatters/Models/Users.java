@@ -18,13 +18,22 @@ public class Users {
         return State;
     }
 
+    public void setState(UsersStateModel state) {
+        State = state;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getProfilePic() {
         return profilePic;
     }
+
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
@@ -33,6 +42,11 @@ public class Users {
     public String getUserName() {
         return userName;
     }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
     public String getUserId() {
         return userId;
@@ -52,6 +66,10 @@ public class Users {
 
     public String getToken() {
         return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 

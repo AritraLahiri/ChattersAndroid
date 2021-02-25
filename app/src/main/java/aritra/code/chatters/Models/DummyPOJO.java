@@ -17,6 +17,9 @@ public class DummyPOJO {
     public DummyPOJO() {
     }
 
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
+    }
 
     public String getVideoId() {
         return videoId;
@@ -24,5 +27,9 @@ public class DummyPOJO {
 
     public VideoDetailsPOJO getDetails() {
         return details;
+    }
+
+    public void setDetails(VideoDetailsPOJO details) {
+        this.details = details;
     }
 }

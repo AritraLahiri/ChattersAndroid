@@ -5,7 +5,7 @@ public class VideoDetailsPOJO {
     private String publishedAt;
     private String title;
     private VideoImage thumbnails;
-    private  String channelTitle;
+    private String channelTitle;
 
 
     public String getPublishedAt() {
@@ -24,4 +24,6 @@ public class VideoDetailsPOJO {
     public String getChannelTitle() {
         return channelTitle;
     }
+
+
 }

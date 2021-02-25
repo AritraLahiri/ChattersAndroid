@@ -11,15 +11,23 @@ public class JsonResponse {
     @SerializedName("items")
     @Expose
     private ArrayList<DummyPOJO> itemsArray;
-    private  String nextPageToken ;
+    private String nextPageToken;
     private int totalResult;
 
     public int getTotalResult() {
         return totalResult;
     }
 
+    public void setTotalResult(int totalResult) {
+        this.totalResult = totalResult;
+    }
+
     public String getNextPageToken() {
         return nextPageToken;
+    }
+
+    public void setNextPageToken(String nextPageToken) {
+        this.nextPageToken = nextPageToken;
     }
 
     public ArrayList<DummyPOJO> getItemsArray() {
