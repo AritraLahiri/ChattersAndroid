@@ -53,6 +53,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         Users users = list.get(position);
 
+
         Picasso.get().load(users.getProfilePic()).fit().centerInside().placeholder(R.drawable.ic_profile).into(holder.profilePic);
         holder.userName.setText(users.getUserName());
 
@@ -73,6 +74,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                                 holder.lastMessage.setText(snapshot1.child("message").getValue(String.class));
                             }
                         }
+
+
                     }
 
                     @Override

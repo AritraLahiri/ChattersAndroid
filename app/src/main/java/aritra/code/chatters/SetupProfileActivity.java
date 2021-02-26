@@ -63,7 +63,6 @@ public class SetupProfileActivity extends AppCompatActivity {
                     binding.userName.setError("Enter Your Name");
                 } else if (selectedImage != null) {
                     progressDialog.show();
-
                     byte[] userProfilePic = ImageSizeCompress.compressImage(selectedImage, getApplicationContext());
 
                     StorageReference storageReference = storage.getReference().child("Profile Pictures").child(auth.getUid());

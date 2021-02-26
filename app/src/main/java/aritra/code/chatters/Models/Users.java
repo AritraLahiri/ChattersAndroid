@@ -4,6 +4,8 @@ public class Users {
     private String profilePic, userName, userId, about, phoneNumber, token;
     private UsersStateModel State;
 
+
+
     public Users() {
 
     }
@@ -13,6 +15,7 @@ public class Users {
         this.userName = userName;
         this.token = token;
     }
+
 
     public UsersStateModel getState() {
         return State;
