@@ -131,7 +131,8 @@ public class ChatDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openReview();
-
+                startActivity(new Intent(ChatDetailActivity.this, MainActivity.class));
+                finishAffinity();
             }
         });
 
@@ -277,15 +278,8 @@ public class ChatDetailActivity extends AppCompatActivity {
     private void openReview() {
         if (reviewInfo != null) {
             Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
-            flow.addOnCompleteListener(task -> {
-                startActivity(new Intent(ChatDetailActivity.this, MainActivity.class));
-            });
         }
-        startActivity(new Intent(ChatDetailActivity.this, MainActivity.class));
-
     }
-
-
 
 
     private void openPrivacyPolicy(String s) {

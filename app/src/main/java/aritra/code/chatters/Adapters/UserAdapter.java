@@ -84,29 +84,32 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 });
 
 
-        FirebaseDatabase.getInstance().getReference().child("Chats")
-                .child(childKey).orderByChild("hasSeen")
-                .equalTo(false).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+        FirebaseDatabase.getInstance().getReference()
+                .child("Chats")
+                .child(childKey)
+                .orderByChild("hasSeen")
+                .equalTo(false)
+                .addValueEventListener(new ValueEventListener() {
+                    @SuppressLint("ResourceAsColor")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if (snapshot.hasChildren()) {
-                    holder.unread_text.setVisibility(View.VISIBLE);
-                    holder.unread_text.setText(String.valueOf(snapshot.getChildrenCount()));
-                    holder.lastMessage.setTextColor(R.color.fb_color);
+                        if (snapshot.hasChildren()) {
+                            holder.unread_text.setVisibility(View.VISIBLE);
+                            holder.unread_text.setText(String.valueOf(snapshot.getChildrenCount()));
+                            holder.lastMessage.setTextColor(R.color.fb_color);
 
 
-                }
+                        }
 
 
-            }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +122,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 intent.putExtra("Username", users.getUserName());
                 context.startActivity(intent);
             }
+
         });
 
         holder.profilePic.setOnClickListener(new View.OnClickListener() {

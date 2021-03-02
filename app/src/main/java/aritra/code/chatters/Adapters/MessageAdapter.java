@@ -170,7 +170,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
                     .child(messagesModel.getMessageId())
                     .setValue(messagesModel);
 
-
             return true; // true is closing popup, false is requesting a new selection
         });
 
@@ -213,22 +212,22 @@ public class MessageAdapter extends RecyclerView.Adapter {
             FirebaseDatabase.getInstance().getReference().child("Chats")
                     .child(receiverRoom + senderRoom).limitToLast(1)
                     .addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Log.i("CHILDREN " , snapshot.hasChildren() + "");
-                        if (snapshot1.child("hasSeen").getValue(Boolean.class)) {
-                            ((SenderViewHolder) holder).messageStatus.setImageResource(R.drawable.ic_baseline_check_24);
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                Log.i("CHILDREN ", snapshot.hasChildren() + "");
+                                if (snapshot1.child("hasSeen").getValue(Boolean.class)) {
+                                    ((SenderViewHolder) holder).messageStatus.setImageResource(R.drawable.ic_baseline_check_24);
+                                }
+
+                            }
                         }
 
-                    }
-                }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+                        }
+                    });
 
 
             if (messagesModel.getFeeling() >= 0) {

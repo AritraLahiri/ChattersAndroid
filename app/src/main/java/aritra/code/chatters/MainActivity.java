@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 auth.signOut();
                 intent = new Intent(MainActivity.this, PhoneAuthActivity.class);
                 startActivity(intent);
+                finishAffinity();
                 break;
         }
         return true;

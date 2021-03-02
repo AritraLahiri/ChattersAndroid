@@ -63,6 +63,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openReview();
+                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
+                finishAffinity();
             }
         });
 
@@ -136,14 +138,8 @@ public class SettingsActivity extends AppCompatActivity {
     private void openReview() {
         if (reviewInfo != null) {
             Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
-            flow.addOnCompleteListener(task -> {
-                startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-            });
         }
-        startActivity(new Intent(SettingsActivity.this, MainActivity.class));
-
     }
-
 
 
     @Override
@@ -152,10 +148,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (data != null) {
             Uri fileUrl = data.getData();
+            byte[] userProfilePic = ImageSizeCompress.compressImage(fileUrl, getApplicationContext());
             binding.profilePic.setImageURI(fileUrl);
             Snackbar.make(relativeLayout, "Woo.. Looking Awesome", Snackbar.LENGTH_SHORT).show();
             final StorageReference storageReference = storage.getReference().child("Profile Pictures").child(auth.getUid());
-            storageReference.putFile(fileUrl).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            storageReference.putBytes(userProfilePic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 

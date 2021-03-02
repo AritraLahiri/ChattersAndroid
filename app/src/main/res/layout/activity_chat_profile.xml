@@ -26,17 +26,6 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_baseline_arrow_back_24" />
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="SAMPLE Name"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="30dp"
-            android:textColor="#fff"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
     </RelativeLayout>
 
     <LinearLayout
@@ -47,6 +36,17 @@
         android:padding="18dp"
 
         >
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="SAMPLE Name"
+            android:layout_alignParentBottom="true"
+            android:textColor="#000000"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

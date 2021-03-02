@@ -31,7 +31,7 @@ public class ViewProfileImageActivity extends AppCompatActivity {
                 Intent intent = new Intent(ViewProfileImageActivity.this, ChatProfileActivity.class);
                 intent.putExtra("UserId", userId);
                 startActivity(intent);
-
+                finish();
             }
         });
 

@@ -33,7 +33,7 @@ public class PhoneAuthActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null) {
             Intent intent = new Intent(PhoneAuthActivity.this, MainActivity.class);
             startActivity(intent);
-            finish();
+            finishAffinity();
         }
 
 

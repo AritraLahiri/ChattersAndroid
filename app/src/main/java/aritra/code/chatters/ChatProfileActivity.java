@@ -42,7 +42,7 @@ public class ChatProfileActivity extends AppCompatActivity {
                 users = snapshot.getValue(Users.class);
                 users.setUserId(snapshot.getKey());
                 String userProfilePic = users.getProfilePic();
-                Picasso.get().load(userProfilePic).fit().placeholder(R.drawable.ic_profile).into(binding.profilePic);
+                Picasso.get().load(userProfilePic).fit().centerCrop().placeholder(R.drawable.ic_profile).into(binding.profilePic);
                 binding.userName.setText(users.getUserName());
                 binding.phoneNumber.setText(users.getPhoneNumber());
 
@@ -64,9 +64,10 @@ public class ChatProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ChatProfileActivity.this, ViewProfileImageActivity.class);
-                intent.putExtra("profilePic",users.getProfilePic());
-                intent.putExtra("UserId",users.getUserId() );
+                intent.putExtra("profilePic", users.getProfilePic());
+                intent.putExtra("UserId", users.getUserId());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -74,7 +75,7 @@ public class ChatProfileActivity extends AppCompatActivity {
         binding.backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChatProfileActivity.this, ChatDetailActivity.class);
+                Intent intent = new Intent(ChatProfileActivity.this, MainActivity.class);
                 intent.putExtra("UserId", users.getUserId());
                 intent.putExtra("ProfilePic", users.getProfilePic());
                 intent.putExtra("Username", users.getUserName());

@@ -53,6 +53,7 @@ public class SetupProfileActivity extends AppCompatActivity {
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent, 99);
+                finishAffinity();
             }
         });
 
