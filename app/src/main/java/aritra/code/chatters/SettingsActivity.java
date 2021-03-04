@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseStorage storage;
     RelativeLayout relativeLayout;
     ReviewManager manager;
+    Long statusUploadTime;
     ReviewInfo reviewInfo;
 
 
@@ -72,14 +74,38 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Users users = snapshot.getValue(Users.class);
+                if (users.getProfilePic() != null) {
+                    showHideProfileRemoveBtn(true);
+                }
                 Picasso.get().load(users.getProfilePic()).fit().centerCrop().placeholder(R.drawable.ic_profile).into(binding.profilePic);
                 binding.userName.setText(users.getUserName());
                 binding.userAbout.setText(users.getAbout());
                 binding.userPhone.setText(users.getPhoneNumber());
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        database.getReference().child("Status").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    statusUploadTime = snapshot.child("lastUpdated").getValue(Long.class);
+                    for (DataSnapshot statusSnapshot : snapshot.child("Stories").getChildren()) {
+                        if (snapshot.exists()) {
+                            showHideStatusRemoveBtn(true);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -96,6 +122,30 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        binding.profilePicRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                database.getReference().child("Users").child(auth.getUid()).child("profilePic").setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Snackbar.make(binding.getRoot(), "Profile Pic Removed", Snackbar.LENGTH_SHORT).show();
+                        Picasso.get().load(R.drawable.ic_profile).fit().centerCrop().into(binding.profilePic);
+
+                        binding.profilePic.setBackgroundResource(R.drawable.ic_profile);
+                        showHideProfileRemoveBtn(false);
+                    }
+                });
+            }
+        });
+
+        binding.statusPicRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteStatusFromDatabase();
+            }
+        });
+
+
         binding.profileSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,12 +158,54 @@ public class SettingsActivity extends AppCompatActivity {
                 obj.put("about", about);
 
                 database.getReference().child("Users").child(auth.getUid()).updateChildren(obj);
-
                 intent = new Intent(SettingsActivity.this, MainActivity.class);
                 startActivity(intent);
                 Snackbar.make(relativeLayout, "Woo.. Looking Awesome", Snackbar.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void deleteStatusFromDatabase() {
+        storage.getReference().child("Status").child(auth.getUid()).child(statusUploadTime.toString()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        database.getReference().child("Status").child(auth.getUid()).child("Stories").setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Snackbar.make(binding.getRoot(), "Your Status has been removed", Snackbar.LENGTH_SHORT).show();
+                                showHideStatusRemoveBtn(false);
+                            }
+                        });
+
+
+                    }
+                });
+
+
+    }
+
+    private void showHideStatusRemoveBtn(Boolean isStatusAvailable) {
+
+        if (isStatusAvailable) {
+            binding.statusPicRemove.setVisibility(View.VISIBLE);
+            binding.statusPicRemoveText.setVisibility(View.VISIBLE);
+        } else {
+            binding.statusPicRemove.setVisibility(View.INVISIBLE);
+            binding.statusPicRemoveText.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void showHideProfileRemoveBtn(Boolean isProfilePicAvailable) {
+
+        if (isProfilePicAvailable) {
+            binding.profilePicRemove.setVisibility(View.VISIBLE);
+            binding.profilePicRemoveText.setVisibility(View.VISIBLE);
+        } else {
+            binding.profilePicRemove.setVisibility(View.INVISIBLE);
+            binding.profilePicRemoveText.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void initReviewInfo() {
@@ -160,6 +252,7 @@ public class SettingsActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             database.getReference().child("Users").child(auth.getUid()).child("profilePic").setValue(uri.toString());
+                            showHideProfileRemoveBtn(true);
                         }
                     });
                 }
